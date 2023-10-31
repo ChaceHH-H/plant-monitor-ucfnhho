@@ -124,5 +124,75 @@ String url = "/trigger/plant_monitor/with/key/";
                           );
 ```
 
+## Display data using SH1106 oled
+Connect the oled to the four pins of ESP8266 (GND, 3V, SCL, SDA)
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/f7b19fc3c5a75c9397f8a53e57ff7c2.jpg) 
+First Change Dn to Arduino pin number, otherwise the oled cannot be read.
 
+```
+static const uint8_t D0   = 16;
+static const uint8_t D1   = 5;
+static const uint8_t D2   = 4;
+static const uint8_t D3   = 0;
+static const uint8_t D4   = 2;
+static const uint8_t D5   = 14;
+static const uint8_t D6   = 12;
+static const uint8_t D7   = 13;
+static const uint8_t D8   = 15;
+static const uint8_t D9   = 3;
+static const uint8_t D10  = 1;
+```
 
+Initialize the OLED display using Wire library
+
+```
+SH1106Wire display(0x3c, D2, D1);
+```
+
+Clear the screen and call displayTempHumid in the loop
+
+```
+display.clear();
+displayTempHumid();
+```
+
+Finally, create the displayTempHumid() function, read the sensor data and call the image in Graphic_esp8266_dht22_oledi2c.h and display it
+
+```
+void displayTempHumid() {
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  //Check if any reads failed and exit early
+  if (isnan(h) || isnan(t) ) {   // || isnan(f)
+    display.clear(); // clearing the display
+    display.drawString(5, 0, "Failed DHT");
+    display.display();
+    return;
+  }
+
+  display.setColor(WHITE);
+
+  display.clear();
+  display.setFont(ArialMT_Plain_16);
+  display.drawString(0, 0, "TEMPERATURA");
+  display.setFont(ArialMT_Plain_24);
+  display.drawString(0, 26, String(t) + " C");
+  display.drawXbm(100, 20, 20, 40, temp_logo);
+  display.display();
+  delay(5000);
+
+  display.clear();
+  display.setFont(ArialMT_Plain_16);
+  display.drawString(0, 0, "HUMIDITY");
+  display.setFont(ArialMT_Plain_24);
+  display.drawString(0, 26, String(h) + " %");
+  display.drawXbm(94, 20, 29, 40, humi_logo);
+  display.display();
+  delay(5000);
+
+  display.clear();
+  display.drawXbm(31, 0, 67, 64, ok_01);
+  display.display();
+  delay(3000);
+}
+```
