@@ -11,8 +11,61 @@ Use IDBot to get the Telegram user ID (used to make the plant monitor only read 
 ### Code
 Add Telegram bot and ArduinoJson library  
 Insert user ID and Bot Token  
-
 ```
 #define CHAT_ID "My-ID"
 #define BOTtoken "Bot Token"
 ```
+Build a WiFi client and use the token to create a robot  
+
+```
+WiFiClientSecure teleclient;
+UniversalTelegramBot bot(BOTtoken, teleclient);
+```
+
+The getReadings() function requests three data from the sensor and returns the result as a string
+
+```
+String getReadings(){
+  float temperature, humidity;
+  temperature = dht.readTemperature();
+  humidity = dht.readHumidity();
+  String message = "Warning \n";
+  message += "Temperature: " + String(temperature) + " ºC \n";
+  message += "Humidity: " + String (humidity) + " % \n";
+  message += "Moisture: " + String (Moisture) + " % \n";
+  return message;
+}
+```
+
+The handleNewMessages() function will process new messages, check whether the id of the sender of the message is correct, if it is incorrect, ignore the message, if the id is correct, identify the message sent, and edit the content according to different messages.
+
+```
+void handleNewMessages(int numNewMessages) {
+  Serial.println("handleNewMessages");
+  Serial.println(String(numNewMessages));
+  //Checks available messages
+  for (int i=0; i<numNewMessages; i++) {
+    //Chat id of the requester
+    String chat_id = String(bot.messages[i].chat_id);
+    if (chat_id != CHAT_ID){
+      bot.sendMessage(chat_id, "Unauthorized user", "");
+      continue;
+    }
+    // Print the received message
+    String text = bot.messages[i].text;
+    Serial.println(text);
+    String from_name = bot.messages[i].from_name;
+    if (text == "/start") {
+      String welcome = "Welcome, " + from_name + ".\n";
+      welcome += "Use the following command to get current readings.\n\n";
+      welcome += "/readings \n";
+      bot.sendMessage(chat_id, welcome, "");
+    }
+    if (text == "/readings") {
+      String readings = getReadings();
+      bot.sendMessage(chat_id, readings, "");
+    }  
+  }
+}
+```
+
