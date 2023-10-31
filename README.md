@@ -4,11 +4,12 @@ Use ESP8266, DHT22, SH1106-OLED to make a plant monitor that detects plant Tempe
 Based on the workshop, additional functions have been added to send data to email and Telegram, and the use of OLED screens to display data.  
 ![Image text](https://github.com/ChaceHH-H/Image/blob/main/2776d6a2b9b1b5141828e33d0985b78.jpg)
 ## Request sensor readings using Telegram
+Send a message to the Telegram bot and will receive the sensor data
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/cabbc236a81d5f87f4f99fdef912b7b.jpg)  
 Download Telegram and create a Telegram bot by searching for BotFather to get the link to access the bot and the bot token  
 ![Image text](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2020/06/Telegram-Botfather.png?w=362&quality=100&strip=all&ssl=1)  
 Use IDBot to get the Telegram user ID (used to make the plant monitor only read messages sent by the specified user  
 ![Image text](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2020/06/Telegram-ID-Bot.png?w=348&quality=100&strip=all&ssl=1)  
-### Code
 Add Telegram bot and ArduinoJson library  
 Insert user ID and Bot Token  
 ```
@@ -84,4 +85,44 @@ if (millis() > lastTimeBotRan + botRequestDelay)  {
   }
 ```
 
-![Image text](https://github.com/ChaceHH-H/Image/blob/main/cabbc236a81d5f87f4f99fdef912b7b.jpg)  
+## Create email notifications using IFTTT
+Plant Monitor sends email alerts when sensor data exceeds normal values
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/4473b1d861ba45fcd15dce3146ad3a7.jpg)  
+Create an event in IFTTT
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/73f7c22f0ae2355ad3f06dc0261fa4c.png) 
+Insert IFTTT API key and host
+
+```
+const char* host = "maker.ifttt.com";
+const char* apiKey = "IFTTT-Key";
+```
+
+Check whether the sensor data is in the normal range in loop()，if the data exceeds the normal value, call sendemail() to send an email. Use millis to have the program check every half hour
+
+```
+if(millis() >= time_now + period){
+    if(t>30||h<30||Moisture<50){
+    time_now += period;
+    sendemail(); }
+  }
+```
+
+Last, sendemail() make a request to IFTTT and output three values to email
+
+```
+String url = "/trigger/plant_monitor/with/key/";
+    url += apiKey;
+    Serial.print("Requesting URL: ");
+      Serial.println(url);
+      client.print(String("POST ") + url + " HTTP/1.1\r\n" +
+                          "Host: " + host + "\r\n" + 
+                          "Content-Type: application/x-www-form-urlencoded\r\n" + 
+                          "Content-Length: 13\r\n\r\n" +
+                          "value1=" + T + "\r\n" +
+                          "value2=" + H + "\r\n" +
+                          "value2=" + Moisture + "\r\n"
+                          );
+```
+
+
+
