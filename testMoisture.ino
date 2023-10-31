@@ -19,7 +19,7 @@
 #include <DHT_U.h>
 #include "SH1106Wire.h"
 
-//My changer//Change Dn to Arduino pin number，更改Dn为Arduino引脚号
+//My change//Change Dn to Arduino pin number，更改Dn为Arduino引脚号
 static const uint8_t D0   = 16;
 static const uint8_t D1   = 5;
 static const uint8_t D2   = 4;
@@ -32,7 +32,7 @@ static const uint8_t D8   = 15;
 static const uint8_t D9   = 3;
 static const uint8_t D10  = 1;
 #include "Graphic_esp8266_dht22_oledi2c.h"
-//My changer//Initialize the OLED display using Wire library,初始化Oled
+//My change//Initialize the OLED display using Wire library,初始化Oled
 SH1106Wire display(0x3c, D2, D1);
 
 
@@ -87,7 +87,7 @@ const char* host = "maker.ifttt.com";
 const char* apiKey = "IFTTT-Key";
 
 
-//My changer//auto send delay,警告发送延迟
+//My change//auto send delay,警告发送延迟
 int period = 1800000;
 unsigned long time_now = 0;
 
@@ -129,7 +129,7 @@ void setup() {
     teleclient.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
   #endif
 
-//My changer//Initialising the UI will init the display too，初始化 UI 也会初始化显示
+//My change//Initialising the UI will init the display too，初始化 UI 也会初始化显示
   display.init();
   display.flipScreenVertically();
   display.setFont(ArialMT_Plain_16);
@@ -147,7 +147,7 @@ void loop() {
     Serial.println(GB.dateTime("H:i:s")); // UTC.dateTime("l, d-M-y H:i:s.v T")
   }
 
-//My changer//Check for new messages every second. When new messages are received, call the numNewMessages function,每秒检查新消息。收到新消息时，拨打numNewMessages功能
+//My change//Check for new messages every second. When new messages are received, call the numNewMessages function,每秒检查新消息。收到新消息时，拨打numNewMessages功能
   if (millis() > lastTimeBotRan + botRequestDelay)  {
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
 
@@ -253,7 +253,7 @@ void sendemail(){
 }
 
 
-//My changer//Display data on OLED，显示数据
+//My change//Display data on OLED，显示数据
 void displayTempHumid() {
   float h = dht.readHumidity();
   float t = dht.readTemperature();
