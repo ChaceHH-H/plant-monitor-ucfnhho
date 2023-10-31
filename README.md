@@ -103,7 +103,7 @@ Check whether the sensor data is in the normal range in loop()，if the data exc
 
 ```
 if(millis() >= time_now + period){
-    if(t>30||h<30||Moisture<50){
+    if(t>38||t<20||h<60||h>40){
     time_now += period;
     sendemail(); }
   }
