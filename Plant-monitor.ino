@@ -164,7 +164,7 @@ void loop() {
   h = dht.readHumidity();
   //Check the condition of plant every half hour,if the data is incorrect, call the sendemail function
   if(millis() >= time_now + period){
-    if(t>30||h<30||Moisture<50){
+    if(t>38||t<20||h<60||h>40){
     time_now += period;
     sendemail();
     }
