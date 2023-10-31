@@ -69,3 +69,19 @@ void handleNewMessages(int numNewMessages) {
 }
 ```
 
+In loop(), check for new messages every second，When new messages are received, call the handleNewMessages() function.
+
+```
+if (millis() > lastTimeBotRan + botRequestDelay)  {
+    int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
+
+    while(numNewMessages) {
+      Serial.println("got response");
+      handleNewMessages(numNewMessages);
+      numNewMessages = bot.getUpdates(bot.last_message_received + 1);
+    }
+    lastTimeBotRan = millis();
+  }
+```
+
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/cabbc236a81d5f87f4f99fdef912b7b.jpg)  
