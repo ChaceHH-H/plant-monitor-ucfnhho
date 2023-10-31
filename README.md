@@ -11,5 +11,8 @@ Use IDBot to get the Telegram user ID (used to make the plant monitor only read 
 ### Code
 Add Telegram bot and ArduinoJson library  
 Insert user ID and Bot Token  
-``#define CHAT_ID "My-ID"
-``#define BOTtoken "Bot Token"
+
+```
+#define CHAT_ID "My-ID"
+#define BOTtoken "Bot Token"
+```
