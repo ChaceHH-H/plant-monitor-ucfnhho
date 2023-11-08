@@ -1,5 +1,9 @@
 # Plant-Monitor-ucfnhho
-This repository documents the code and ways to make a plant monitor using ESP8266, DHT22, SH1106-OLED, that detects plant Temperature-Humidity and Moisture, the detected data will be automatically uploaded to the mqtt server. The plant monitor comes with an OLED screen that displays temperature and humidity. At the same time, when the plant temperature is too high or the humidity is too low, the monitor will send an email through IFTTT to alert the plant supervisor. In addition, plant supervisors can also send messages through Telegram Bot to obtain plant data.
+This repository documents the code and ways to make a plant monitor using ESP8266, DHT22, SH1106-OLED, that detects plant Temperature-Humidity and Moisture, the detected data will be automatically uploaded to the mqtt server. The plant monitor comes with an OLED screen that displays temperature and humidity. At the same time, when the plant temperature is too high or the humidity is too low, the monitor will send an email through IFTTT to alert the plant supervisor. In addition, plant supervisors can also send messages through Telegram Bot to obtain plant data.  
+The project is divided into three parts：  
+1. Design idea
+2. Develop and build
+3. Placed in CE lab
 ## Plant
 The plant detected by the monitor is Parlour Palm (or Chamaedorea elegans）, a small palm native to Central America. It is a temperate woody plant that requires an average temperature of 20 to 38°C to grow. Although this palm can tolerate dry indoor air, it will be healthier with a relative humidity of 40-60%. Parlor Palms are sensitive to overwatering and cannot tolerate being waterlogged or sitting in a saturated potting mix
 ## Change
