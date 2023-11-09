@@ -38,8 +38,7 @@ Equipment needed:
 
 ### Code for Data detection and transmission
 
-
-  
+### Code for Telegram bot message
 Send a message to the Telegram bot and will receive the sensor data
 
 Download Telegram and create a Telegram bot by searching for BotFather to get the link to access the bot and the bot token  
@@ -121,7 +120,7 @@ if (millis() > lastTimeBotRan + botRequestDelay)  {
   }
 ```
 
-## Create email notifications using IFTTT
+### Code for Send email via IFTTT
 Plant Monitor sends email alerts when sensor data exceeds normal values
 ![Image text](https://github.com/ChaceHH-H/Image/blob/main/4473b1d861ba45fcd15dce3146ad3a7.jpg)  
 Create an event in IFTTT
@@ -160,7 +159,7 @@ String url = "/trigger/plant_monitor/with/key/";
                           );
 ```
 
-## Display data using SH1106 oled
+### Code for Display data using SH1106 oled
 Connect the oled to the four pins of ESP8266 (GND, 3V, SCL, SDA)
 ![Image text](https://github.com/ChaceHH-H/Image/blob/main/f7b19fc3c5a75c9397f8a53e57ff7c2.jpg) 
 First Change Dn to Arduino pin number, otherwise the oled cannot be read.
