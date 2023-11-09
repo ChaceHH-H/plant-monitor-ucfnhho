@@ -18,16 +18,34 @@ The basic function of the factory monitor is to make it according to the standar
 - Get plant data via Telegram bot
 - Automatically send warning email
 
-The first two ideas are easier to implement than the latter, but the operation of these two requires people to be present to remind people, and may operate at inappropriate times.
+The first two ideas are easier to implement than the latter, but the operation of these two requires people to be present to remind people, and may operate at inappropriate times.As for email reminders and telegrams, plant owners can receive data and warnings no matter where they are, which is more convenient and real-time than buzzers fixed on plant monitors. Adding a screen can also provide people with options other than mobile phones and the Internet to observe plant data.
 
 
-## Request sensor readings using Telegram
+## Develop and build
+Equipment needed:
+- Adafruit Huzzah ESP8266 WiFi board
+- DHT22 Digital Sensor
+- Raspberry Pi
+- SH1106-OLED Display
+- 2x 10k Ohm resistors
+- 1x 200 Ohm resistor
+- 1x 100 Ohm resistor
+- two nails
+- four cables
+
+### How to build the plant monitor
+
+
+### 
+
+
+  
 Send a message to the Telegram bot and will receive the sensor data
-![Image text](https://github.com/ChaceHH-H/Image/blob/main/cabbc236a81d5f87f4f99fdef912b7b.jpg)  
+
 Download Telegram and create a Telegram bot by searching for BotFather to get the link to access the bot and the bot token  
-![Image text](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2020/06/Telegram-Botfather.png?w=362&quality=100&strip=all&ssl=1)  
+
 Use IDBot to get the Telegram user ID (used to make the plant monitor only read messages sent by the specified user  
-![Image text](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2020/06/Telegram-ID-Bot.png?w=348&quality=100&strip=all&ssl=1)  
+
 Add Telegram bot and ArduinoJson library  
 Insert user ID and Bot Token  
 ```
