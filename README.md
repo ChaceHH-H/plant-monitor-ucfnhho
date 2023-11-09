@@ -231,3 +231,4 @@ void displayTempHumid() {
   delay(3000);
 }
 ```
+## Placed in CE lab
