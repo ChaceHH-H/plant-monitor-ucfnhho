@@ -42,7 +42,7 @@ Equipment needed:
 Send a message to the Telegram bot and will receive the sensor data
 
 Download Telegram and create a Telegram bot by searching for BotFather to get the link to access the bot and the bot token  
-
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/ddd1bf09e1a49f0c9e9728c22582abc.jpg) 
 Use IDBot to get the Telegram user ID (used to make the plant monitor only read messages sent by the specified user  
 
 Add Telegram bot and ArduinoJson library  
@@ -120,6 +120,7 @@ if (millis() > lastTimeBotRan + botRequestDelay)  {
   }
 ```
 
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/b6ac854731c6fcc887e491bee9e16e7.jpg) 
 ### Code for Send email via IFTTT
 Plant Monitor sends email alerts when sensor data exceeds normal values
 ![Image text](https://github.com/ChaceHH-H/Image/blob/main/4473b1d861ba45fcd15dce3146ad3a7.jpg)  
