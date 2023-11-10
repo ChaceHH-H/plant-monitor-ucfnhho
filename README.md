@@ -34,7 +34,8 @@ Equipment needed:
 - four cables
 
 ### How to build the plant monitor
-
+First need to connect the DHT22 sensor and two nails to the ESP8266 WiFi board. We use a Huzzah shield and solder two 10k Ohm resistors, a 200 Ohm resistor, a 100 Ohm resistor and the DHT22 sensor to the Huzzah shield so no wires are needed. In addition, we use open wires to weld two nails to the Huzzah shield, and finally weld the Huzzah shield to the ESP8266 WiFi board. We have completed the construction of the plant sensor.
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/e38e251e2e837937.png) 
 
 ### Code for Data detection and transmission
 
