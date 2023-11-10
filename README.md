@@ -132,7 +132,13 @@ void sendMQTT() {
   snprintf (msg, 50, "%.0i", Moisture);
   Serial.print("Publish message for m: ");
   Serial.println(msg);
-```  
+```
+
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/mqtt.png) 
+
+### Setting up the Raspberry Pi
+Install a Raspberry Pi to acquire Plant Monitor data and visualize the data using Telegraf, InfluxDB and Grafana.
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/b9e8c2c4761ee81cb10846f4a65a1c9.png) 
 
 ### Code for Telegram bot message
 Send a message to the Telegram bot and will receive the sensor data
