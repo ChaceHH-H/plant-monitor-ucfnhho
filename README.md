@@ -335,3 +335,5 @@ void displayTempHumid() {
 }
 ```
 ## Placed in CE lab
+
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/place1.jpg) 
