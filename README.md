@@ -38,6 +38,101 @@ First need to connect the DHT22 sensor and two nails to the ESP8266 WiFi board. 
 ![Image text](https://github.com/ChaceHH-H/Image/blob/main/e38e251e2e837937.png) 
 
 ### Code for Data detection and transmission
+Plant Monitor uses multiple libraries for wifi connection, transmitting data to mqtt, etc.  
+
+```
+#include <ESP8266WiFi.h>
+#include <WiFiClientSecure.h>
+#include <UniversalTelegramBot.h>
+#include <ArduinoJson.h>
+#include <ESP8266WebServer.h>
+#include <ezTime.h>
+#include <PubSubClient.h>
+#include <DHT.h>
+#include <DHT_U.h>
+#include "SH1106Wire.h"
+```
+
+First define the pins of the sensor and nail,also the variables needed, then call setup to initialize the pins.  
+
+```
+uint8_t DHTPin = 12;
+uint8_t soilPin = 0;
+float Temperature;
+float Humidity;
+int Moisture = 1;
+int sensorVCC = 13;
+int blueLED = 2;
+DHT dht(DHTPin, DHTTYPE);
+#include "arduino_secrets.h" 
+const char* ssid     = SECRET_SSID;
+const char* password = SECRET_PASS;
+const char* mqttuser = SECRET_MQTTUSER;
+const char* mqttpass = SECRET_MQTTPASS;
+
+```
+
+Then Start the WiFi and MQTT networks functions to Set variables for Wifi and MQTT connections
+
+```  
+void readMoisture(){
+  
+  // power the sensor
+  digitalWrite(sensorVCC, HIGH);
+  digitalWrite(blueLED, LOW);
+  delay(100);
+  // read the value from the sensor:
+  Moisture = analogRead(soilPin);         
+  digitalWrite(sensorVCC, LOW);  
+  digitalWrite(blueLED, HIGH);
+  delay(100);
+  Serial.print("Wet ");
+  Serial.println(Moisture);   // read the value from the nails
+}
+
+void startWifi() {
+  // We start by connecting to a WiFi network
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+
+
+  // check to see if connected and wait until you are
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+```
+
+Finally, call the readMoisture() function to open the soil sensor, add voltage to it to detect and obtain data, and then use the data and DHT22 data in the sendMQTT() function to push to the CASA MQTT server.
+
+```
+void sendMQTT() {
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+  Temperature = dht.readTemperature(); // Gets the values of the temperature
+  snprintf (msg, 50, "%.1f", Temperature);
+  Serial.print("Publish message for t: ");
+  Serial.println(msg);
+  client.publish("student/CASA0014/plant/ucfnhho/temperature", msg);
+  Humidity = dht.readHumidity(); // Gets the values of the humidity
+  snprintf (msg, 50, "%.0f", Humidity);
+  Serial.print("Publish message for h: ");
+  Serial.println(msg);
+  client.publish("student/CASA0014/plant/ucfnhho/humidity", msg);
+  //Moisture = analogRead(soilPin);   // moisture read by readMoisture function
+  snprintf (msg, 50, "%.0i", Moisture);
+  Serial.print("Publish message for m: ");
+  Serial.println(msg);
+```  
 
 ### Code for Telegram bot message
 Send a message to the Telegram bot and will receive the sensor data
