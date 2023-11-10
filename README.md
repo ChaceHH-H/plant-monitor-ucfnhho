@@ -8,7 +8,7 @@ The project is divided into three parts：
 ## Plant
 The plant detected by the monitor is Parlour Palm (or Chamaedorea elegans）, a small palm native to Central America. It is a temperate woody plant that requires an average temperature of 20 to 38°C to grow. Although this palm can tolerate dry indoor air, it will be healthier with a relative humidity of 40-60%. Parlor Palms are sensitive to overwatering and cannot tolerate being waterlogged or sitting in a saturated potting mix  
 
-**Need Img**
+![Image text](https://github.com/ChaceHH-H/Image/blob/main/place2.jpg) 
 ## Design idea
 The basic function of the factory monitor is to make it according to the standard workshop process, detect data and transmit it to the MQTT server. On this basis, five additional functions are proposed.
 
