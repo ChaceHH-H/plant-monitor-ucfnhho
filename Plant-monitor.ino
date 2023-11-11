@@ -1,13 +1,3 @@
-/*
-    Get date and time - uses the ezTime library at https://github.com/ropg/ezTime -
-    and then show data from a DHT22 on a web page served by the Huzzah and
-    push data to an MQTT server - uses library from https://pubsubclient.knolleary.net
-
-    Duncan Wilson
-    CASA0014 - 2 - Plant Monitor Workshop
-    May 2020
-*/
-
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
 #include <UniversalTelegramBot.h>
@@ -19,7 +9,7 @@
 #include <DHT_U.h>
 #include "SH1106Wire.h"
 
-//My change//Change Dn to Arduino pin number，更改Dn为Arduino引脚号
+//Change Dn to Arduino pin number
 static const uint8_t D0   = 16;
 static const uint8_t D1   = 5;
 static const uint8_t D2   = 4;
@@ -32,20 +22,20 @@ static const uint8_t D8   = 15;
 static const uint8_t D9   = 3;
 static const uint8_t D10  = 1;
 #include "Graphic_esp8266_dht22_oledi2c.h"
-//My change//Initialize the OLED display using Wire library,初始化Oled
+//Initialize the OLED display using Wire library
 SH1106Wire display(0x3c, D2, D1);
 
 
-#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
-// Sensors - DHT22 and Nails
-uint8_t DHTPin = 12;        // on Pin 2 of the Huzzah
-uint8_t soilPin = 0;      // ADC or A0 pin on Huzzah
+#define DHTTYPE DHT22   
+
+uint8_t DHTPin = 12;      
+uint8_t soilPin = 0;      
 float Temperature;
 float Humidity;
-int Moisture = 1; // initial value just in case web page is loaded before readMoisture called
+int Moisture = 1; 
 int sensorVCC = 13;
 int blueLED = 2;
-DHT dht(DHTPin, DHTTYPE);   // Initialize DHT sensor.
+DHT dht(DHTPin, DHTTYPE);  
 
 
 // Wifi and MQTT
@@ -67,27 +57,27 @@ char msg[50];
 int value = 0;
 
 
-//My change//connect to telegram-Telegram User ID-Bot Token 电报用户ID和机器人令牌
+//connect to telegram-Telegram User ID-Bot Token 
 #define CHAT_ID "My-ID"
 #define BOTtoken "Bot Token"
 #ifdef ESP8266
   X509List cert(TELEGRAM_CERTIFICATE_ROOT);
 #endif
-//new WiFi client新客户端
+//new WiFi client
 WiFiClientSecure teleclient;
-//Creat a bot机器人使用之前定义的令牌和客户端
+//Creat a bot
 UniversalTelegramBot bot(BOTtoken, teleclient);
-//check for new Telegram messages-Delay每隔 x 秒检查新的 Telegram 消息
+//check for new Telegram messages-Delay
 int botRequestDelay = 1000;
 unsigned long lastTimeBotRan;
 
 
-//My change//IFTTT-host and key，地址和钥匙
+//IFTTT-host and key
 const char* host = "maker.ifttt.com";
 const char* apiKey = "IFTTT-Key";
 
 
-//My change//auto send delay,警告发送延迟
+//auto send delay
 int period = 1800000;
 unsigned long time_now = 0;
 
@@ -125,11 +115,11 @@ void setup() {
 
     //
   #ifdef ESP8266
-    configTime(0, 0, "pool.ntp.org");      // get UTC time via NTP
+    configTime(0, 0, "pool.ntp.org");      
     teleclient.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
   #endif
 
-//My change//Initialising the UI will init the display too，初始化 UI 也会初始化显示
+//Initialising the UI will init the display too
   display.init();
   display.flipScreenVertically();
   display.setFont(ArialMT_Plain_16);
@@ -147,7 +137,7 @@ void loop() {
     Serial.println(GB.dateTime("H:i:s")); // UTC.dateTime("l, d-M-y H:i:s.v T")
   }
 
-//My change//Check for new messages every second. When new messages are received, call the numNewMessages function,每秒检查新消息。收到新消息时，拨打numNewMessages功能
+//Check for new messages every second. When new messages are received, call the numNewMessages function
   if (millis() > lastTimeBotRan + botRequestDelay)  {
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
 
@@ -179,8 +169,7 @@ void loop() {
 
 
 
-
-//My change//function requests temperature and humidity from dht22,returns the results as a string variable for Telegram bot.
+//function requests temperature and humidity from dht22,returns the results as a string variable for Telegram bot.
 String getReadings(){
   float temperature, humidity;
   temperature = dht.readTemperature();
@@ -191,7 +180,7 @@ String getReadings(){
   message += "Moisture: " + String (Moisture) + " % \n";
   return message;
 }
-//My change//Check received Telegram messages and edit text and data needed to be sent.检查收到的电报消息，并编辑需要发送到文本和数据
+//Check received Telegram messages and edit text and data needed to be sent
 void handleNewMessages(int numNewMessages) {
   Serial.println("handleNewMessages");
   Serial.println(String(numNewMessages));
@@ -220,12 +209,12 @@ void handleNewMessages(int numNewMessages) {
   }
 }
 
-//My change//send warning message to email and telegram
+//send warning message to email and telegram
 void sendemail(){
   Serial.println("send warning");
     String readings = getReadings();
     bot.sendMessage(CHAT_ID, readings, "");
-  //Send email reminders of plant status values,发送邮箱提醒植物状态数值
+  //Send email reminders of plant status values
     float T, H;
     T = dht.readTemperature();
     H = dht.readHumidity();
@@ -237,7 +226,7 @@ void sendemail(){
       Serial.println("connection failed");
       return;
     }
-    //Make a request to IFTTT and output three values，向 IFTTT 发出请求,并输出三个数值
+    //Make a request to IFTTT and output three values
     String url = "/trigger/plant_monitor/with/key/";
     url += apiKey;
     Serial.print("Requesting URL: ");
@@ -253,7 +242,7 @@ void sendemail(){
 }
 
 
-//My change//Display data on OLED，显示数据
+//Display data on OLED
 void displayTempHumid() {
   float h = dht.readHumidity();
   float t = dht.readTemperature();
@@ -376,7 +365,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   // Switch on the LED if an 1 was received as first character
   if ((char)payload[0] == '1') {
-    digitalWrite(BUILTIN_LED, LOW);   // Turn the LED on (Note that LOW is the voltage level
+    digitalWrite(BUILTIN_LED, LOW);  
     // but actually the LED is on; this is because it is active low on the ESP-01)
   } else {
     digitalWrite(BUILTIN_LED, HIGH);  // Turn the LED off by making the voltage HIGH
